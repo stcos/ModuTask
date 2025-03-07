@@ -2,45 +2,47 @@ import test, { expect, Page } from "@playwright/test";
 import baseUrl from "../utils/baseUrl";
 import MainPage from "../pages/main-page";
 import data from "../utils/data";
-import { acceptGoogleConsent } from "../utils/hooks";
+import { beforeAll } from "../utils/hooks";
 import { SortType } from "../utils/sortType";
-import { isNumberArraySorted } from "../utils/tsUtils";
+import { isNumberArraySortedAscending, isNumberArraySortedDescending } from "../utils/tsUtils";
+import { Anemities } from "../utils/anemities";
 
 let page: Page;
+let mainPage: MainPage;
 
 test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
-    await acceptGoogleConsent(page, baseUrl.url)
+    await beforeAll(page, baseUrl.url)
+    mainPage = new MainPage(page);
 })
 
 test.describe('Filter', () => {
-    
-    let mainPage: MainPage;
-
     test.beforeEach(async () => {
         await page.goto(baseUrl.url);
-        mainPage = new MainPage(page);
         await mainPage.searchFor(data.location)
     })
    
     test(`should sort by Lowest price`, async () => {
         console.log('Started test')
-        let filterComponent = await mainPage.openFilterPanel();
-        await filterComponent.sortBy(SortType.LOWEST_PRICE);
-        await filterComponent.closeFilterPanel();
-        await mainPage.waitForSearchToFinish();
+        await mainPage.sortBy(SortType.LOWEST_PRICE);
         const prices = await mainPage.resultsComponent.getPrices();
-        const isSorted = isNumberArraySorted(prices) 
-        expect(isSorted).toBe(true)
+        const isSortedAscending = isNumberArraySortedAscending(prices) 
+        expect(isSortedAscending, 'The hotel prices are not sorted by price').toBe(true)
     })
 
-    // test(`should sort by Highest Rating`, async () => {
-    //     console.log('Started test')
-    //     let filterComponent = await mainPage.openFilterPanel();
-    //     await filterComponent.sortBy(SortType.LOWEST_PRICE);
-    //     await filterComponent.closeFilterPanel();
-    //     await mainPage.waitForSearchToFinish();
-       
-    // })
-    
+    test(`should sort by Most Reviews`, async () => {
+        console.log('Started test')
+        await mainPage.sortBy(SortType.MOST_REVIEWED);
+        const reviews = await mainPage.resultsComponent.getHotelsReviews();
+        const isSortedDescending = isNumberArraySortedDescending(reviews);
+        expect(isSortedDescending, 'The hotel results are not sorted by most reviews').toBe(true)
+    })
+
+    test(`should filter by Pet-Friendly anemity`, async () => {
+        console.log('Started test')
+        await mainPage.filterBy({ anemities: [Anemities.BAR]});
+        const hotelAmenities = await mainPage.resultsComponent.getHotelsData();
+        const hasPetFriendly = hotelAmenities.every(amenity => amenity.amenities!.includes(Anemities.BAR));
+        expect(hasPetFriendly, 'Not all hotels have the pet-friendly anemity').toBe(true)
+    })
 })
