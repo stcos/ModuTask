@@ -5,7 +5,7 @@
 - Install Git from https://git-scm.com/downloads
 - Clone project 
 - Open project in VSC
-- Install Playwright plugin
+- Install Playwright plugin for debug execution
 - Run npm install
 - Run npx playwright install (Command will download browsers)
 
@@ -20,11 +20,11 @@ If the tests fail, the result is save in ./playwright-report and the HTML Report
 The screenshots are saved in ./test-results for failed tests
 
 ## Tests
-# Filter spec
+### Filter spec
 Filters current hotel results
-# Overview spec
+### Overview spec
 Tests overview page of Hotel
-# Performance spec
+### Performance spec
 Test navigation to service performance by using fixture performance-fixture.ts
-# Seach spec
+### Seach spec
 Verifies search with different search options
