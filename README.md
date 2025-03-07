@@ -27,4 +27,4 @@ Tests overview page of Hotel
 # Performance spec
 Test navigation to service performance by using fixture performance-fixture.ts
 # Seach spec
-Verifies search
+Verifies search with different search options
