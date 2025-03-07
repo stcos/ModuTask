@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
-import { PricesPanel } from "./prices-panel";
-import OverviewPanel from "./overview-panel";
+import { PricesPanel } from "./components/overview/prices-panel";
+import OverviewPanel from "./components/overview/overview-panel";
 
 /**
  * Overview of the hotel page

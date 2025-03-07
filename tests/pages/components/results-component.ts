@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { Hotel } from "../../utils/hotel";
-import { OverviewPage } from "./overview/overview-page";
+import { OverviewPage } from "../overview-page";
 
 class ResultsComponent {
 

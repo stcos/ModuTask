@@ -16,7 +16,8 @@ test.beforeAll(async ({ browser }) => {
 let mainPage: MainPage;
 
 test.describe('Performance', () => {
-    test.only('should print performance for navigation to baseUrl', async () => {
+    test('should print performance for navigation to baseUrl', async () => {
+        console.log('Navigating to: ', baseUrl.url);
         await page.goto(baseUrl.url);
     });
 });

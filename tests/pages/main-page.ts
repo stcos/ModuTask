@@ -1,13 +1,12 @@
 import { expect, Locator, Page } from "@playwright/test";
 import FilterComponent from "./components/filter-component";
 import ResultsComponent from "./components/results-component";
-import { OverviewPage } from "./components/overview/overview-page";
+import { OverviewPage } from "./overview-page";
 import { SortType } from "../utils/sortType";
 import { Anemities } from "../utils/anemities";
 
 class MainPage {
     readonly resultsComponent: ResultsComponent;
-    readonly overviewPage: OverviewPage;
     readonly searchInputButton: Locator;
     readonly searchInputField: Locator;
     readonly filterButton: Locator;
@@ -21,7 +20,6 @@ class MainPage {
         this.searchInputField = page.locator('[role="dialog"] input[aria-label="Search for places, hotels and more"]');
         this.filterButton = page.locator('button[aria-label="All filters"]');
         this.resultsComponent = new ResultsComponent(page);
-        this.overviewPage = new OverviewPage(page);
     }
 
     /**
